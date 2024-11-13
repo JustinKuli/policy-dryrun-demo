@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-a
+  namespace: default
+spec:
+  containers:
+    - image: nginx:1.7.9
+      name: nginx
+      ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod-b
+  namespace: somewhere-else
+spec:
+  containers:
+    - image: nginx:1.7.9
+      name: nginx
+      ports:
+        - containerPort: 8080
