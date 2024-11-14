@@ -1,0 +1,57 @@
+compliancyDetails:
+- Compliant: Compliant
+  Validity: {}
+  conditions:
+  - lastTransitionTime: "2024-11-14T15:14:59Z"
+    message: pods [nginx-pod] found as specified in namespace another
+    reason: K8s `must have` object already exists
+    status: "True"
+    type: notification
+- Compliant: NonCompliant
+  Validity: {}
+  conditions:
+  - lastTransitionTime: "2024-11-14T15:14:59Z"
+    message: pods [nginx-pod] found but not as specified in namespace default
+    reason: K8s does not have a `must have` object
+    status: "True"
+    type: violation
+- Compliant: NonCompliant
+  Validity: {}
+  conditions:
+  - lastTransitionTime: "2024-11-14T15:14:59Z"
+    message: pods [nginx-pod] not found in namespace nonexist
+    reason: K8s does not have a `must have` object
+    status: "True"
+    type: violation
+compliant: NonCompliant
+lastEvaluated: "2024-11-14T15:14:59Z"
+relatedObjects:
+- compliant: Compliant
+  object:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: nginx-pod
+      namespace: another
+  reason: Resource found as expected
+- compliant: NonCompliant
+  object:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: nginx-pod
+      namespace: default
+  properties:
+    createdByPolicy: false
+    diff: "--- default/nginx-pod : existing\n+++ default/nginx-pod : updated\n@@ -6,7
+      +6,8 @@\n spec:\n   containers:\n   - image: nginx:1.7.9\n     name: nginx\n
+      \    ports:\n+    - containerPort: 8080\n     - containerPort: 80\n \n"
+  reason: Resource found but does not match
+- compliant: NonCompliant
+  object:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: nginx-pod
+      namespace: nonexist
+  reason: Resource not found but should exist
